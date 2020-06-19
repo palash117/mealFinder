@@ -1,0 +1,21 @@
+const RecepieResult = require("./recepieResult");
+const Ingredient = require("./Ingredients");
+
+test("check recepieResult html conversion result", () => {
+  var ingredients = [
+    new Ingredient("penne rigate", "1 pound"),
+    new Ingredient(`olive oil`, `1/4 cup`),
+  ];
+  // var expectedResponse = [new ImageResult( "Fish pie",  "https://www.themealdb.com/images/media/meals/ysxwuq1487323065.jpg",  "52802"), new ImageResult( "Sugar Pie",  "https://www.themealdb.com/images/media/meals/yrstur1511816601.jpg",  "52931"), new ImageResult( "Rappie Pie",  "https://www.themealdb.com/images/media/meals/ruwpww1511817242.jpg",  "52933"), new ImageResult( "Mince Pies",  "https://www.themealdb.com/images/media/meals/qe8pf51576795532.jpg",  "52991"), new ImageResult( "Pumpkin Pie",  "https://www.themealdb.com/images/media/meals/usuqtp1511385394.jpg",  "52857"), new ImageResult( "Key Lime Pie",  "https://www.themealdb.com/images/media/meals/qpqtuu1511386216.jpg",  "52859"), new ImageResult( "Three Fish Pie",  "https://www.themealdb.com/images/media/meals/spswqs1511558697.jpg",  "52882"), new ImageResult( "Minced Beef Pie",  "https://www.themealdb.com/images/media/meals/xwutvy1511555540.jpg",  "52876"), new ImageResult( "Choc Chip Pecan Pie",  "https://www.themealdb.com/images/media/meals/rqvwxt1511384809.jpg",  "52856"), new ImageResult( "Lamb and Potato pie",  "https://www.themealdb.com/images/media/meals/sxrpws1511555907.jpg",  "52877"), new ImageResult( "Beef and Oyster pie",  "https://www.themealdb.com/images/media/meals/wrssvt1511556563.jpg",  "52878"), new ImageResult( "McSinghs Scotch pie",  "https://www.themealdb.com/images/media/meals/vssrtx1511557680.jpg",  "52880"), new ImageResult( "Beef and Mustard Pie",  "https://www.themealdb.com/images/media/meals/sytuqu1511553755.jpg",  "52874"), new ImageResult( "Steak and Kidney Pie",  "https://www.themealdb.com/images/media/meals/qysyss1511558054.jpg",  "52881"), new ImageResult( "Strawberry Rhubarb Pie",  "https://www.themealdb.com/images/media/meals/178z5o1585514569.jpg",  "53005"), new ImageResult( "Chicken Ham and Leek Pie",  "https://www.themealdb.com/images/media/meals/xrrtss1511555269.jpg",  "52875"), new ImageResult( "Vegetable Shepherd’s Pie",  "https://www.themealdb.com/images/media/meals/w8umt11583268117.jpg",  "53000")]
+  expect(
+    new RecepieResult(
+      "Spicy Arrabiata Penne",
+      "https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg",
+      "Pasta,Curry",
+      "Bring a large pot of water to a boil. Add kosher salt to the boiling water, then add the pasta. Cook according to the package instructions, about 9 minutes.\r\nIn a large skillet over medium-high heat, add the olive oil and heat until the oil starts to shimmer. Add the garlic and cook, stirring, until fragrant, 1 to 2 minutes. Add the chopped tomatoes, red chile flakes, Italian seasoning and salt and pepper to taste. Bring to a boil and cook for 5 minutes. Remove from the heat and add the chopped basil.\r\nDrain the pasta and add it to the sauce. Garnish with Parmigiano-Reggiano flakes and more basil and serve warm.",
+      ingredients
+    ).toHTMl()
+  ).toBe(
+    '<div class="recepieName"><h3>Spicy Arrabiata Penne</h3></div><img class="recepieImage" src="https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg" alt="Spicy Arrabiata Penne"><div class="recepieTag"><h3>Pasta,Curry</h3></div><div class="recepieMethod">Bring a large pot of water to a boil. Add kosher salt to the boiling water, then add the pasta. Cook according to the package instructions, about 9 minutes.\r\nIn a large skillet over medium-high heat, add the olive oil and heat until the oil starts to shimmer. Add the garlic and cook, stirring, until fragrant, 1 to 2 minutes. Add the chopped tomatoes, red chile flakes, Italian seasoning and salt and pepper to taste. Bring to a boil and cook for 5 minutes. Remove from the heat and add the chopped basil.\r\nDrain the pasta and add it to the sauce. Garnish with Parmigiano-Reggiano flakes and more basil and serve warm.</div><div class="recepieIngredients"><div class="recepieIngredient"><div class="ingredientName">penne rigate</div><div class="ingredientQuantity">1 pound</div></div><div class="recepieIngredient"><div class="ingredientName">olive oil</div><div class="ingredientQuantity">1/4 cup</div></div></div>'
+  );
+});

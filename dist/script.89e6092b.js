@@ -117,7 +117,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"src/script/imageResult.js":[function(require,module,exports) {
+})({"src/script/modules/imageResult.js":[function(require,module,exports) {
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -144,7 +144,7 @@ var ImageResult = /*#__PURE__*/function () {
 }();
 
 module.exports = ImageResult;
-},{}],"src/script/mealsConverter.js":[function(require,module,exports) {
+},{}],"src/script/modules/mealsConverter.js":[function(require,module,exports) {
 var ImageResult = require("./imageResult");
 
 var mealsToImageResultConverter = function mealsToImageResultConverter(mealsResponse) {
@@ -166,7 +166,7 @@ var mealsToImageResultHTMLConverter = function mealsToImageResultHTMLConverter(m
 };
 
 module.exports = mealsToImageResultConverter;
-},{"./imageResult":"src/script/imageResult.js"}],"src/script/recepieResult.js":[function(require,module,exports) {
+},{"./imageResult":"src/script/modules/imageResult.js"}],"src/script/modules/recepieResult.js":[function(require,module,exports) {
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -187,9 +187,16 @@ var RecepieResult = /*#__PURE__*/function () {
   _createClass(RecepieResult, [{
     key: "toHTMl",
     value: function toHTMl() {
-      var html = "<div class=\"recepieName\">" + "<h3>".concat(this.recepieName, "</h3></div>") + "<img class=\"recepieImage\" src=\"".concat(this.recepieImageLink, "\" alt=\"").concat(this.recepieName, "\">") + "<div class=\"recepieTag\"><h3>".concat(this.recepieTag, "</h3></div>") + "<div class=\"recepieMethod\">".concat(this.recepieMethod, "</div>") + "<div class=\"recepieIngredients\">" + this.getRecepieIngredientsHtml() + "</div>"; // console.log(html)
+      var html = "<div class=\"recepieName\">" + "<h3>".concat(this.recepieName, "</h3></div>") + "<img class=\"recepieImage\" src=\"".concat(this.recepieImageLink, "\" alt=\"").concat(this.recepieName, "\">") + this.getRecepieTag() + "<div class=\"recepieMethod\">".concat(this.recepieMethod, "</div>") + "<div class=\"recepieIngredients\">" + this.getRecepieIngredientsHtml() + "</div>"; // console.log(html)
 
       return html;
+    }
+  }, {
+    key: "getRecepieTag",
+    value: function getRecepieTag() {
+      if (this.recepieTag != null | this.recepieTag != undefined) {
+        return "<div class=\"recepieTag\"><h3>".concat(this.recepieTag, "</h3></div>");
+      } else return "";
     }
   }, {
     key: "getRecepieIngredientsHtml",
@@ -212,7 +219,7 @@ var RecepieResult = /*#__PURE__*/function () {
 }();
 
 module.exports = RecepieResult;
-},{}],"src/script/Ingredients.js":[function(require,module,exports) {
+},{}],"src/script/modules/Ingredients.js":[function(require,module,exports) {
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -243,7 +250,7 @@ var Ingredient = /*#__PURE__*/function () {
 }();
 
 module.exports = Ingredient;
-},{}],"src/script/singleMealConverter.js":[function(require,module,exports) {
+},{}],"src/script/modules/singleMealConverter.js":[function(require,module,exports) {
 var RecepieResult = require('./recepieResult');
 
 var Ingredient = require('./Ingredients');
@@ -272,17 +279,17 @@ var singleMealConverter = function singleMealConverter(mealInfo) {
 };
 
 module.exports = singleMealConverter;
-},{"./recepieResult":"src/script/recepieResult.js","./Ingredients":"src/script/Ingredients.js"}],"src/script/script.js":[function(require,module,exports) {
+},{"./recepieResult":"src/script/modules/recepieResult.js","./Ingredients":"src/script/modules/Ingredients.js"}],"src/script/script.js":[function(require,module,exports) {
 //imports
-var mealsResponseConverter = require("./mealsConverter");
+var mealsResponseConverter = require("./modules/mealsConverter");
 
-var singleMealResponseConverter = require("./singleMealConverter");
+var singleMealResponseConverter = require("./modules/singleMealConverter");
 
-var Ingredient = require("./Ingredients");
+var Ingredient = require("./modules/Ingredients");
 
-var ImageResult = require("./imageResult");
+var ImageResult = require("./modules/imageResult");
 
-var RecepieResult = require("./recepieResult"); //constants
+var RecepieResult = require("./modules/recepieResult"); //constants
 //dom refferneces
 
 
@@ -308,6 +315,7 @@ var initDomRefferneces = function initDomRefferneces() {
 
 var setupEventListeners = function setupEventListeners() {
   elSearchButton.addEventListener("click", searchEVLWrapper);
+  elSearchBar.addEventListener("input", searchEVLWrapper);
 };
 
 var resetDomValues = function resetDomValues() {//   elSearchButton;
@@ -316,6 +324,12 @@ var resetDomValues = function resetDomValues() {//   elSearchButton;
 
 var searchEvL = function searchEvL(afterFunc) {
   searchText = getSearchText();
+
+  if (searchText == "") {
+    setAndReturnHtml("", elImageSearchResult);
+    return;
+  }
+
   searchResult = fetch("https://www.themealdb.com/api/json/v1/1/search.php?s=".concat(searchText)).then(function (r) {
     return r.json();
   }).then(function (response) {
@@ -365,7 +379,7 @@ window.setInterval(function () {
   var elem = document.querySelector(".recepieContainer");
   elem.scrollTop = elem.scrollHeight;
 }, 5000);
-},{"./mealsConverter":"src/script/mealsConverter.js","./singleMealConverter":"src/script/singleMealConverter.js","./Ingredients":"src/script/Ingredients.js","./imageResult":"src/script/imageResult.js","./recepieResult":"src/script/recepieResult.js"}],"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./modules/mealsConverter":"src/script/modules/mealsConverter.js","./modules/singleMealConverter":"src/script/modules/singleMealConverter.js","./modules/Ingredients":"src/script/modules/Ingredients.js","./modules/imageResult":"src/script/modules/imageResult.js","./modules/recepieResult":"src/script/modules/recepieResult.js"}],"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -393,7 +407,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57884" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59743" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

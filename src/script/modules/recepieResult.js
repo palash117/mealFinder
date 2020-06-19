@@ -17,13 +17,18 @@ class RecepieResult {
       `<div class="recepieName">` +
       `<h3>${this.recepieName}</h3></div>` +
       `<img class="recepieImage" src="${this.recepieImageLink}" alt="${this.recepieName}">` +
-      `<div class="recepieTag"><h3>${this.recepieTag}</h3></div>` +
+      this.getRecepieTag() +
       `<div class="recepieMethod">${this.recepieMethod}</div>` +
       `<div class="recepieIngredients">` +
       this.getRecepieIngredientsHtml() +
       `</div>`;
     // console.log(html)
     return html;
+  }
+  getRecepieTag() {
+    if ((this.recepieTag != null) | (this.recepieTag != undefined)) {
+      return `<div class="recepieTag"><h3>${this.recepieTag}</h3></div>`;
+    } else return "";
   }
   getRecepieIngredientsHtml() {
     // console.log(this.recepieIngredients)

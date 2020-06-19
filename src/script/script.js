@@ -1,9 +1,9 @@
 //imports
-const mealsResponseConverter = require("./mealsConverter");
-const singleMealResponseConverter = require("./singleMealConverter");
-const Ingredient = require("./Ingredients");
-const ImageResult = require("./imageResult");
-const RecepieResult = require("./recepieResult");
+const mealsResponseConverter = require("./modules/mealsConverter");
+const singleMealResponseConverter = require("./modules/singleMealConverter");
+const Ingredient = require("./modules/Ingredients");
+const ImageResult = require("./modules/imageResult");
+const RecepieResult = require("./modules/recepieResult");
 
 //constants
 
@@ -30,6 +30,7 @@ var initDomRefferneces = () => {
 
 var setupEventListeners = () => {
   elSearchButton.addEventListener("click", searchEVLWrapper);
+  elSearchBar.addEventListener("input", searchEVLWrapper);
 };
 
 var resetDomValues = () => {
@@ -39,6 +40,10 @@ var resetDomValues = () => {
 // event listeners
 var searchEvL = (afterFunc) => {
   searchText = getSearchText();
+  if (searchText == "") {
+    setAndReturnHtml("", elImageSearchResult);
+    return;
+  }
   searchResult = fetch(
     `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchText}`
   )
