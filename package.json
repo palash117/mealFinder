@@ -1,0 +1,27 @@
+{
+  "name": "mealFinder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/script/script.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/palash117/mealFinder.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/palash117/mealFinder/issues"
+  },
+  "homepage": "https://github.com/palash117/mealFinder#readme",
+  "devDependencies": {
+    "jest": "^26.0.1",
+    "parcel-bundler": "^1.12.4"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.0"
+  }
+}

@@ -1,5 +1,0 @@
-//constants
-
-//dom refferneces
-
-//domClasses
